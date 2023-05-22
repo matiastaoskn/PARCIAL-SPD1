@@ -3,7 +3,7 @@
 
 Matias Skenen
 
-[Proyecto 1](https://github.com/matiastaoskn/PARCIAL-SPD1/assets/93952537/23c35908-be41-4fab-976a-588b77e3fcc6)
+(https://github.com/matiastaoskn/PARCIAL-SPD1/assets/93952537/23c35908-be41-4fab-976a-588b77e3fcc6)
 
 ## Componentes utilizados
 
@@ -114,4 +114,5 @@ if(nivel == 0)
 ```
 
 
+![DIAGRAMA](https://github.com/matiastaoskn/PARCIAL-SPD1/assets/93952537/955de3e1-3e17-4213-8f5c-83232bc0b114)
 
