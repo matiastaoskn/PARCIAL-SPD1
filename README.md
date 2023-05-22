@@ -52,18 +52,6 @@ int acumuladorEmergencia = 0;
 
 En el bucle principal `loop`, se llama a la función `controladorMontacargas()` 
 
-
-El programa contiene las siguientes funciones principales:
-
-- `encenderNumero`: Esta función enciende los segmentos correspondientes para mostrar un número en el display.
-- `manejadorDisplay`: Esta función selecciona qué número se debe mostrar en el display según el valor del contador.
-- `manejadorMontaCargas`: Esta función es el bucle principal del programa. Controla la lógica de incrementar o decrementar el contador según los botones presionados, así como también la lógica de pausar el servicio.
-- `incrementarContador`: Esta función incrementa el valor del contador y muestra el nuevo valor en el display.
-- `decrementarContador`: Esta función decrementa el valor del contador y muestra el nuevo valor en el display.
-- `movimiento`: Esta función activa un LED verde para indicar movimiento durante un periodo de tiempo.
-- `servicioEnPausa`: Esta función muestra en el display el estado de pausa del servicio y enciende o apaga un LED rojo según sea necesario.
-
-
 ## Función `manejadorMontaCargas()`
 ```cpp
 if(nivel == 0)
