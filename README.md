@@ -7,6 +7,10 @@ Matias Skenen
 ![PARCIAL FINAL](https://github.com/matiastaoskn/PARCIAL-SPD1/assets/93952537/2ce9109f-ca24-402c-9ae7-1ced7a9f7bbd)
 
 PROYECTO : https://www.tinkercad.com/things/gT5FDCP5QfC-parcial-matias-skenen-spd/editel?sharecode=pw4KZWE3-n-MtK_c9UoVyWMinppxntL9BY0DAX19MYs
+
+
+
+
 GDB: https://onlinegdb.com/JaE_Q7I0b
 ## Componentes utilizados
 
