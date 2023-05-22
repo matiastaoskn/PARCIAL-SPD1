@@ -1,8 +1,18 @@
 // C++ code
 
 // Matias Skenen
+// DNI: 45584733
 
-// Parcial
+// Parcial SPD DIVISION D
+
+//extra
+int flexValor;
+int servoPosition;
+int sensorVALOR = 0;
+#include <Servo.h> 
+
+Servo myServo;
+# define flexPin A2 
 
 #define LED_ROJO 13
 #define LED_VERDE 12
@@ -33,6 +43,10 @@ int acumuladorEmergencia = 0;
 
 void setup()
 {
+  //extra 
+  pinMode(A0, INPUT);
+  myServo.attach(A1);
+  
   pinMode(botonBajar, INPUT_PULLUP);
   pinMode(botonSubir, INPUT_PULLUP);
   pinMode(botonDetener, INPUT_PULLUP);
@@ -51,21 +65,34 @@ void setup()
   Serial.begin(9600);  
 }
 void loop()
-{
-  //LEER BOTONES
+{ 
   botonSubida = digitalRead(botonSubir);
   botonBajada = digitalRead(botonBajar);
   botonDetenido = digitalRead(botonDetener);
-  
-  //LEDS
-  prenderLuces(LED_ROJO);
-  apagarLuces(LED_VERDE);
-  
+
+  sensor();
   controladorMontacargas();
 	
 
 }
-
+void sensorFlexion()
+{
+  flexValor = analogRead(flexPin);
+  servoPosition = map(flexValor, 770, 950, 0, 180);
+  myServo.write(servoPosition);
+}
+void sensor()
+{  
+  sensorVALOR = analogRead(A0);
+  if(sensorVALOR > 270)
+  {
+    prenderLuces(LED_ROJO);
+    apagarLuces(LED_VERDE);
+  }else
+  {
+    apagarLuces(LED_ROJO);
+  }
+}
 void controladorMontacargas()
 {
     if(nivel == 0)
@@ -73,7 +100,6 @@ void controladorMontacargas()
     montacarga();
   }
   
-  //Boton de emergencia, deterner.
   if(botonDetenido == 0)
   {
     acumuladorEmergencia += 1;
@@ -97,6 +123,7 @@ void controladorMontacargas()
       {
         if(nivel >= 9)
         {
+          sensorFlexion();
           piso = 9;
           prenderLeds(1, 1, 1, 1, 0, 1, 1, 3000);
           mostrarPiso();
@@ -115,7 +142,6 @@ void controladorMontacargas()
     }
   }
 }
-// Printea el piso actual.
 void mostrarPiso()
 {
   Serial.println("Usted esta en el piso:");
@@ -144,12 +170,12 @@ digitalWrite(LED_G, g);
 delay(duration);
 }
 
-//Prender Leds
+
 void prenderLuces(int led)
 {
   digitalWrite(led, HIGH);
 }
-//Apagar Leds
+
 void apagarLuces(int led)
 {
   digitalWrite(led, LOW);
@@ -166,30 +192,35 @@ void montacarga()
           case 1:
           //1
           piso = 1;
+          sensorFlexion();
           apagarLeds();
           prenderLeds(0, 1, 1, 0, 0, 0, 0, 1);
           break;
           case 2:
           //2
           piso = 2;
+          sensorFlexion();
           apagarLeds();
           prenderLeds(1, 1, 0, 1, 1, 0, 1, 3000);
           break;
           case 3:
           //3
           piso = 3;
+          sensorFlexion();
           apagarLeds();
           prenderLeds(1, 1, 1, 1, 0, 0, 1, 3000);
           break;
           case 4:
           //4
           piso = 4;
+          sensorFlexion();
           apagarLeds();
           prenderLeds(0, 1, 1, 0, 0, 1, 1, 3000);
           break;
           case 5:
           //5
           piso = 5;
+          sensorFlexion();
           apagarLeds();
           prenderLeds(1, 0, 1, 1, 0, 1, 1, 3000);
           break;
@@ -202,12 +233,14 @@ void montacarga()
           case 7:
           //7
           piso = 7;
+          sensorFlexion();
           apagarLeds();
           prenderLeds(1, 1, 1, 0, 0, 0, 0, 3000);
           break;
           case 8:
           //8
           piso = 8;
+          sensorFlexion();
           prenderLeds(1, 1, 1, 1, 1, 1, 1, 3000);
           break;
         }
@@ -215,6 +248,7 @@ void montacarga()
    else
     {
      piso = 0;
+     sensorFlexion();
      apagarLeds();
      prenderLeds(1, 1, 1, 1, 1, 1, 0, 1);
     }
