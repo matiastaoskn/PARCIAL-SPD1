@@ -1,11 +1,9 @@
-# 1º Parcial-SPD "Montacargas hospital"
+# 1º Parcial-SPD "Montacargas Hospital"
 
-Se diseño un programa donde se opera un montacargas, donde el usuario puede avanzar, retroceder y pausar el
-montacargas en un piso especifico...
 
-Alumno Lucas Figueroa 1J
+Matias Skenen
 
-![image](https://github.com/lucas22-f/1Parcial-SPD/assets/71677198/1f2cd3a5-ae96-4245-b78c-507c40312516)
+![image](![image](https://github.com/matiastaoskn/PARCIAL-SPD1/assets/93952537/595affb1-f87a-4114-bf52-f3020b48a78f))
 
 ## Componentes utilizados
 
@@ -20,28 +18,38 @@ Alumno Lucas Figueroa 1J
 El código utiliza los siguientes pines para conectar los componentes:
 
 ```
-#define A 8
-#define B 7
-#define C 11
-#define D 12
-#define E 13
-#define F 9
-#define G 10
+#define LED_ROJO 13
+#define LED_VERDE 12
 
-#define verde 4
-#define rojo 3
+#define LED_A 7
+#define LED_B 6
+#define LED_C 5
+#define LED_D 4
+#define LED_E 3
+#define LED_F 2
+#define LED_G A4
 
-#define boton1 6
-#define boton2 5
-#define btnStop A0
+#define botonSubir 11
+#define botonBajar 10
+#define botonDetener 9
+
+int nivel = 0;
+int piso;
+int botonSubida;
+int botonBajada;
+int botonDetenido;
+
+int montaCargaSUBIENDO = false;
+int montaCargaBAJANDO = false;
+
+int botonEmergencia = false;
+int acumuladorEmergencia = 0;
 ```
-## Configuración inicial
 
-En la función `setup`, se configuran los pines como entrada o salida según sea necesario.
 
 ## Bucle principal
 
-En el bucle principal `loop`, se llama a la función `manejadorMontaCargas` para controlar el funcionamiento del programa.
+En el bucle principal `loop`, se llama a la función `controladorMontacargas()` 
 
 
 El programa contiene las siguientes funciones principales:
@@ -57,52 +65,53 @@ El programa contiene las siguientes funciones principales:
 
 ## Función `manejadorMontaCargas()`
 ```cpp
-void manejadorMontaCargas(){
-  
-  int estadoStop = digitalRead(A0);
-  if(estadoStop == LOW && estadoAnteriorStop == HIGH){
-  	stoped = !stoped;
-    servicioEnPausa(stoped);
-  
+if(nivel == 0)
+  {
+    montacarga();
   }
-  estadoAnteriorStop = estadoStop;
   
-  if(stoped == true){
-    manejadorDisplay(contador);
-  }else{
-  	manejadorDisplay(contador);
-   
-    int estadoPulsador1 = digitalRead(boton1);
-    if (estadoPulsador1 == LOW && estadoAnterior1 == HIGH){
-      decrementarContador();
-      movimiento();
-     
-    }
-    estadoAnterior1 = estadoPulsador1;
-    int estadoPulsador2 = digitalRead(boton2);
-    if (estadoPulsador2 == LOW && estadoAnterior2 == HIGH){
-      incrementarContador();
-      movimiento();
-      
-    }
-    estadoAnterior2 = estadoPulsador2;
+  //Boton de emergencia, deterner.
+  if(botonDetenido == 0)
+  {
+    acumuladorEmergencia += 1;
+    delay(1000);
+    Serial.println("Emergencia Activado");
   }
-}
+  
+	// Comienzo de programa
+  if(acumuladorEmergencia % 2 == 0)
+  {
+    if(botonSubida == 0 || botonBajada == 0)
+    {
+      if(botonBajada == 0)
+      {
+        nivel -= 1;
+        prenderLeds(0, 0, 0, 0, 0, 0, 0, 3000);
+        montacarga();
+        mostrarPiso();
+      }
+      else
+      {
+        if(nivel >= 9)
+        {
+          piso = 9;
+          prenderLeds(1, 1, 1, 1, 0, 1, 1, 3000);
+          mostrarPiso();
+        }
+        else
+        {
+          prenderLuces(LED_VERDE);
+          apagarLuces(LED_ROJO);
+          nivel += 1;
+          prenderLeds(0, 0, 0, 0, 0, 0, 0, 3000);
+          montacarga();
+          mostrarPiso();
+        }
+
+      }
+    }
+  }
 ```
 
-Esta función es responsable de controlar el funcionamiento principal del programa. Controla el estado del botón de parada (`btnStop`), los botones de incremento (`boton2`) y decremento (`boton1`), y decide si el servicio debe estar en pausa o no.
 
-### Comportamiento
 
-1. Lee el estado actual del botón de parada utilizando `digitalRead(A0)` y lo guarda en la variable `estadoStop`.
-2. Compara el estado actual del botón de parada con el estado anterior almacenado en la variable `estadoAnteriorStop`.
-3. Si el estado actual es `LOW` (presionado) y el estado anterior es `HIGH` (no presionado), se invierte el valor de la variable `stoped` y se llama a la función `servicioEnPausa(stoped)` para reflejar el nuevo estado.
-4. Actualiza el estado anterior del botón de parada con el valor actual.
-5. Si el servicio está en pausa (`stoped == true`), llama a la función `manejadorDisplay(contador)` para mostrar el número actual en el display.
-6. Si el servicio no está en pausa (`stoped == false`), también llama a la función `manejadorDisplay(contador)` para mostrar el número actual en el display y continúa con las siguientes acciones:
-   - Evaluamos el boton de decremento para saber si se pulsó, en caso de que se haya pulsado se ejecuta el `decremento` se produce el `informe` y el `movimiento` del montacargas
-   - Evaluamos el boton de incremento para saber si se pulsó, en caso de que se haya pulsado se ejecuta el `incremento` se produce el `informe` y el `movimiento` del montacargas
-
-### Uso
-
-Se llama a la funcion : `manejadorMontaCargas()`en el bucle principal para manejar todo el programa.
