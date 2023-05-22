@@ -52,7 +52,7 @@ int acumuladorEmergencia = 0;
 
 En el bucle principal `loop`, se llama a la función `controladorMontacargas()` 
 
-## Función `manejadorMontaCargas()`
+## Función `controladorMontacargas()`
 ```cpp
 if(nivel == 0)
   {
